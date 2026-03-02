@@ -17,19 +17,42 @@ import fs from "fs";
 const port =process.env.PORT || 3000;
 const app=express();
 
-//app.use(cors());
+const defaultAllowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:8080",
+  "http://localhost:8081",
+  "https://imagingpedia-testing.vercel.app",
+  "https://imagingpedia-testing.onrender.com",
+  "https://imagingpedia-testing-production.up.railway.app",
+];
 
-app.use(cors({
-origin: [
-"http://localhost:3000",
-"http://localhost:5173",
-"http://localhost:8080",
-"http://localhost:8081",
-"https://imagingpedia-testing.vercel.app",
-"https://imagingpedia-testing.onrender.com"
-],
-credentials: true
-}));
+const envOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = new Set([...defaultAllowedOrigins, ...envOrigins]);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      const isRailwayApp = /^https:\/\/[a-z0-9-]+\.up\.railway\.app$/i.test(origin);
+      if (allowedOrigins.has(origin) || isRailwayApp) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const uploadsDir = path.join(process.cwd(), "uploads");

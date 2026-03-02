@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:3000").replace(/\/+$/, "");
+
 interface RequireAdminAuthProps {
   children: React.ReactNode;
 }
@@ -25,7 +27,7 @@ const RequireAdminAuth = ({ children }: RequireAdminAuthProps) => {
     const verifyToken = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL || "http://localhost:3000"}/admin/verify`,
+          `${API_BASE_URL}/admin/verify`,
           {
             method: "POST",
             headers: {
