@@ -36,7 +36,9 @@ const uploadsDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
-
+app.get("/", (req, res) => {
+  res.json({ message: "Server is running" });
+});
 app.use("/uploads", express.static(uploadsDir));
 app.use("/questions",questionRoutes);
 app.use("/practice-questions", practiceQuestionsRoutes);
