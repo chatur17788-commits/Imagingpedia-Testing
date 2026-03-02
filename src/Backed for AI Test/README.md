@@ -83,6 +83,12 @@ Your repository contains both frontend and backend. Railway may auto-detect the 
 ### 4. Fix the lockfile error you saw
 If Railway is still running `bun install --frozen-lockfile`, it is building the wrong directory (frontend root). Re-check the backend service Root Directory above.
 
+### 5. Fallback if Railway still builds repo root
+This repo now includes a root `nixpacks.toml` that forces install/start from:
+`src/Backed for AI Test/ai-lms-backend`
+
+So even if Root Directory is not applied correctly, deploy should still use backend commands (`npm install`, `npm start`) instead of Bun/Vite static deployment.
+
 ## API Endpoints
 
 ### POST /submission
