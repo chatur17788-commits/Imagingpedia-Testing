@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import UpdatedHeroImage from "@/assets/Gemini_Generated_Image_cmg1ufcmg1ufcmg1.png";
-import mobileImage from "@/assets/Mobile screen.png";
+import mobileImage from "@/assets/mobile_screen.png";
 import Img1 from "@/assets/Suspicious Mass.png";
 
 export const HeroSection = () => {
